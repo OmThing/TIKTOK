@@ -1,0 +1,191 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Region {
+  id             String   @id @default(cuid())
+  name           String
+  code           String   @unique
+  language       String
+  style          String
+  learningLibrary String  @default("")
+  notes          String   @default("")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Account {
+  id                    String   @id @default(cuid())
+  name                  String
+  regionId              String
+  phoneNo               String   @default("")
+  positioning           String   @default("")
+  mainProduct           String   @default("")
+  status                String   @default("正常")
+  publishStrategy       String   @default("")
+  dailyPostTarget       Int      @default(1)
+  styleNotes            String   @default("")
+  riskNotes             String   @default("")
+  latestReview          String   @default("")
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
+
+model Product {
+  id                 String   @id @default(cuid())
+  name               String
+  category           String
+  regionIds          String   @default("")
+  accountIds         String   @default("")
+  sellingPoints      String   @default("")
+  emotionalPoints    String   @default("")
+  audience           String   @default("")
+  scenes             String   @default("")
+  videoStyles        String   @default("")
+  hooks              String   @default("")
+  titleDirections    String   @default("")
+  tags               String   @default("")
+  cta                String   @default("")
+  imageNotes         String   @default("")
+  materialStatus     String   @default("待整理")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model Video {
+  id                    String   @id @default(cuid())
+  name                  String
+  regionId              String
+  accountId             String
+  productId             String
+  videoType             String   @default("AI视频")
+  status                String   @default("选题中")
+  publishedAt           DateTime?
+  videoUrl              String   @default("")
+  materialNotes         String   @default("")
+  hook                  String   @default("")
+  voiceover             String   @default("")
+  chineseVoiceover      String   @default("")
+  pov                   String   @default("")
+  title                 String   @default("")
+  subtitle              String   @default("")
+  caption               String   @default("")
+  tags                  String   @default("")
+  cta                   String   @default("")
+  elevenLabsText        String   @default("")
+  libtvStoryboard       String   @default("")
+  libtvFirstFramePrompt String   @default("")
+  libtvLastFramePrompt  String   @default("")
+  libtvPrompt           String   @default("")
+  competitorSource      String   @default("")
+  replicationNotes      String   @default("")
+  views                 Int      @default(0)
+  likes                 Int      @default(0)
+  comments              Int      @default(0)
+  saves                 Int      @default(0)
+  shares                Int      @default(0)
+  completionRate        Float    @default(0)
+  clickRate             Float    @default(0)
+  productClicks         Int      @default(0)
+  orders                Int      @default(0)
+  gmv                   Float    @default(0)
+  newFollowers          Int      @default(0)
+  data24h               String   @default("")
+  data48h               String   @default("")
+  data72h               String   @default("")
+  rating                String   @default("普通")
+  successReason         String   @default("")
+  failureReason         String   @default("")
+  nextIteration         String   @default("")
+  canReplicateProduct   Boolean  @default(false)
+  canReplicateRegion    Boolean  @default(false)
+  addToTemplate         Boolean  @default(false)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
+
+model Competitor {
+  id                 String   @id @default(cuid())
+  accountName        String
+  regionId           String
+  accountUrl         String   @default("")
+  videoUrl           String   @default("")
+  videoTitle         String   @default("")
+  transcript         String   @default("")
+  visualDescription  String   @default("")
+  commentSummary     String   @default("")
+  productType        String   @default("")
+  viralAnalysis      String   @default("")
+  learnings          String   @default("")
+  replicablePoints   String   @default("")
+  avoidPoints        String   @default("")
+  hookBreakdown      String   @default("")
+  voiceoverBreakdown String   @default("")
+  rhythmBreakdown    String   @default("")
+  titleBreakdown     String   @default("")
+  tagsBreakdown      String   @default("")
+  localVersion       String   @default("")
+  languageVersion    String   @default("")
+  chineseExplanation String   @default("")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model ViralTemplate {
+  id                 String   @id @default(cuid())
+  name               String
+  sourceVideo        String   @default("")
+  regionIds          String   @default("")
+  accountIds         String   @default("")
+  productIds         String   @default("")
+  hookStructure      String   @default("")
+  middleStructure    String   @default("")
+  endingStructure    String   @default("")
+  titleStructure     String   @default("")
+  tagsStructure      String   @default("")
+  storyboardStructure String  @default("")
+  replaceableProducts String  @default("")
+  regionReplication  String   @default("")
+  cautions           String   @default("")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model LibTVWorkflow {
+  id                   String   @id @default(cuid())
+  name                 String
+  productId            String   @default("")
+  accountId            String   @default("")
+  videoStyle           String   @default("")
+  shotCount            Int      @default(8)
+  secondsPerShot       Float    @default(1.8)
+  visualConsistency    String   @default("")
+  productConsistency   String   @default("")
+  firstFramePrompt     String   @default("")
+  lastFramePrompt      String   @default("")
+  masterPrompt         String   @default("")
+  notes                String   @default("")
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+model CalendarItem {
+  id            String   @id @default(cuid())
+  date          DateTime
+  regionId      String
+  accountId     String
+  productId     String
+  topic         String
+  videoStatus   String   @default("选题中")
+  publishTime   String   @default("")
+  published     Boolean  @default(false)
+  needsReview   Boolean  @default(true)
+  reviewReminder String  @default("")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
