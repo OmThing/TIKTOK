@@ -36,6 +36,16 @@ http://localhost:5173/dashboard
 http://localhost:8787/api/health
 ```
 
+## GitHub 上传工具
+
+如果电脑没有安装 Git 或 GitHub CLI，可以双击运行：
+
+```text
+install-github-tools.cmd
+```
+
+脚本会先检查 `git` 和 `gh` 是否已存在；缺少时优先使用 `winget` 安装，没有 `winget` 时会从 GitHub 官方 release 下载 Git for Windows 和 GitHub CLI 安装包。
+
 ## DeepSeek API
 
 在 `.env` 中填写：
