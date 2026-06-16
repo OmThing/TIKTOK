@@ -3,14 +3,20 @@
 @tailwind utilities;
 
 :root {
-  --paper-50: #fbf8f1;
-  --paper-100: #f7f1e5;
-  --paper-200: #f4eadb;
-  --paper-300: #efe3cf;
-  --ink: #1e1a17;
-  --muted: #75695d;
-  --seal: #8f1d1d;
-  --line: rgba(30, 26, 23, 0.16);
+  --paper-50: #ffffff;
+  --paper-100: #f5f5f7;
+  --paper-200: #ececf0;
+  --paper-300: #e1e4ea;
+  --ink: #1d1d1f;
+  --muted: #6e6e73;
+  --seal: #0071e3;
+  --seal-2: #5e5ce6;
+  --line: rgba(0, 0, 0, 0.08);
+  --glass: rgba(255, 255, 255, 0.72);
+  --glass-strong: rgba(255, 255, 255, 0.88);
+  --ease-apple: cubic-bezier(0.22, 1, 0.36, 1);
+  --shadow-soft: 0 18px 60px rgba(0, 0, 0, 0.08);
+  --shadow-lift: 0 30px 90px rgba(0, 0, 0, 0.14);
 }
 
 * {
@@ -26,11 +32,15 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 12% 12%, rgba(143, 29, 29, 0.045), transparent 30%),
-    radial-gradient(circle at 82% 8%, rgba(30, 26, 23, 0.055), transparent 24%),
-    linear-gradient(135deg, var(--paper-100), var(--paper-200) 52%, var(--paper-300));
+    linear-gradient(180deg, #fbfbfd 0%, #f5f5f7 42%, #ffffff 100%),
+    linear-gradient(110deg, rgba(0, 113, 227, 0.08), transparent 34%, rgba(94, 92, 230, 0.07));
   color: var(--ink);
-  font-family: Georgia, "Times New Roman", "Songti SC", "Noto Serif SC", SimSun, serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, "PingFang SC",
+    "Microsoft YaHei", sans-serif;
+  letter-spacing: 0;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 body::before {
@@ -39,25 +49,18 @@ body::before {
   z-index: -1;
   pointer-events: none;
   content: "";
-  background-image:
-    radial-gradient(rgba(30, 26, 23, 0.08) 0.62px, transparent 0.72px),
-    radial-gradient(rgba(143, 29, 29, 0.05) 0.52px, transparent 0.72px);
-  background-position:
-    0 0,
-    12px 18px;
-  background-size:
-    22px 22px,
-    30px 30px;
-  opacity: 0.34;
-  mix-blend-mode: multiply;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.45), transparent 42%),
+    linear-gradient(225deg, rgba(0, 113, 227, 0.045), transparent 44%);
 }
 
 button,
 input,
 select,
 textarea {
-  border-radius: 2px;
+  border-radius: 14px;
   font: inherit;
+  letter-spacing: 0;
 }
 
 button {
@@ -70,128 +73,172 @@ table {
 }
 
 th {
-  background: rgba(239, 227, 207, 0.62);
-  color: rgba(30, 26, 23, 0.62);
+  background: rgba(255, 255, 255, 0.62);
+  color: rgba(29, 29, 31, 0.55);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0;
-  padding: 12px 14px;
+  padding: 14px 16px;
   text-align: left;
   white-space: nowrap;
 }
 
 td {
-  border-top: 1px solid rgba(30, 26, 23, 0.11);
-  color: rgba(30, 26, 23, 0.82);
+  border-top: 1px solid var(--line);
+  color: rgba(29, 29, 31, 0.84);
   font-size: 14px;
-  max-width: 260px;
-  padding: 13px 14px;
+  max-width: 280px;
+  padding: 15px 16px;
   vertical-align: top;
 }
 
 ::selection {
-  background: rgba(143, 29, 29, 0.16);
+  background: rgba(0, 113, 227, 0.16);
+}
+
+@keyframes surfaceIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0) scale(0.985);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes heroFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -8px, 0);
+  }
 }
 
 @layer components {
   .nav-item {
-    @apply flex h-10 w-full items-center gap-3 px-3 text-left text-sm font-medium transition;
-    border-radius: 2px;
-    color: rgba(30, 26, 23, 0.62);
+    @apply flex h-11 w-full items-center gap-3 px-3 text-left text-sm font-medium transition;
+    border-radius: 16px;
+    color: rgba(29, 29, 31, 0.62);
+    transition-duration: 420ms;
+    transition-timing-function: var(--ease-apple);
   }
 
   .nav-item:hover {
-    background: rgba(244, 234, 219, 0.72);
+    background: rgba(0, 113, 227, 0.08);
     color: var(--seal);
+    transform: translateX(3px);
   }
 
   .nav-item-active {
-    background: var(--seal);
-    color: var(--paper-50);
+    background: rgba(0, 113, 227, 0.12);
+    color: var(--seal);
+    box-shadow: inset 0 0 0 1px rgba(0, 113, 227, 0.1);
   }
 
   .nav-item-active:hover {
-    background: var(--seal);
-    color: var(--paper-50);
+    background: rgba(0, 113, 227, 0.14);
+    color: var(--seal);
   }
 
   .icon-button {
-    @apply inline-grid h-9 w-9 place-items-center border bg-white text-ink transition;
+    @apply inline-grid h-10 w-10 place-items-center border bg-white text-ink transition;
     border-color: var(--line);
-    border-radius: 2px;
-    color: rgba(30, 26, 23, 0.7);
+    border-radius: 999px;
+    color: rgba(29, 29, 31, 0.72);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    transition: transform 420ms var(--ease-apple), border-color 420ms var(--ease-apple), box-shadow 420ms var(--ease-apple),
+      color 420ms var(--ease-apple), background 420ms var(--ease-apple);
   }
 
   .icon-button:hover {
-    border-color: rgba(143, 29, 29, 0.56);
+    border-color: rgba(0, 113, 227, 0.36);
     color: var(--seal);
+    transform: translateY(-2px);
+    box-shadow: 0 16px 36px rgba(0, 113, 227, 0.12);
   }
 
   .icon-button.danger:hover {
-    border-color: var(--seal);
-    color: var(--seal);
+    border-color: rgba(255, 59, 48, 0.42);
+    color: #ff3b30;
   }
 
   .mini-icon {
-    @apply inline-grid h-7 w-7 shrink-0 place-items-center border bg-white text-ink transition;
+    @apply inline-grid h-8 w-8 shrink-0 place-items-center border bg-white text-ink transition;
     border-color: var(--line);
-    border-radius: 2px;
-    color: rgba(30, 26, 23, 0.56);
+    border-radius: 999px;
+    color: rgba(29, 29, 31, 0.56);
+    transition: transform 360ms var(--ease-apple), border-color 360ms var(--ease-apple), color 360ms var(--ease-apple);
   }
 
   .mini-icon:hover {
-    border-color: rgba(143, 29, 29, 0.56);
+    border-color: rgba(0, 113, 227, 0.36);
     color: var(--seal);
+    transform: translateY(-1px) scale(1.04);
   }
 
   .primary-button,
   .seal-button {
-    @apply inline-flex h-10 items-center justify-center gap-2 px-4 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60;
-    border: 1px solid var(--seal);
-    background: var(--seal);
-    color: var(--paper-50);
-    border-radius: 2px;
+    @apply inline-flex h-11 items-center justify-center gap-2 px-5 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60;
+    border: 1px solid rgba(0, 113, 227, 0.18);
+    background: linear-gradient(180deg, #1488ff 0%, #0071e3 100%);
+    color: white;
+    border-radius: 999px;
+    box-shadow: 0 16px 38px rgba(0, 113, 227, 0.22);
+    transition: transform 480ms var(--ease-apple), box-shadow 480ms var(--ease-apple), filter 480ms var(--ease-apple);
   }
 
   .primary-button:hover,
   .seal-button:hover {
-    background: #741818;
+    filter: saturate(1.08) brightness(1.02);
+    transform: translateY(-2px) scale(1.015);
+    box-shadow: 0 24px 52px rgba(0, 113, 227, 0.28);
   }
 
   .secondary-button,
   .paper-button {
-    @apply inline-flex h-10 items-center justify-center gap-2 bg-transparent px-4 text-sm font-semibold transition;
-    border: 1px solid rgba(143, 29, 29, 0.46);
+    @apply inline-flex h-11 items-center justify-center gap-2 bg-transparent px-5 text-sm font-semibold transition;
+    border: 1px solid rgba(0, 113, 227, 0.2);
     color: var(--seal);
-    border-radius: 2px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.72);
+    transition: transform 420ms var(--ease-apple), background 420ms var(--ease-apple), border-color 420ms var(--ease-apple);
   }
 
   .secondary-button:hover,
   .paper-button:hover {
-    background: rgba(143, 29, 29, 0.06);
-    border-color: var(--seal);
+    background: rgba(0, 113, 227, 0.08);
+    border-color: rgba(0, 113, 227, 0.36);
+    transform: translateY(-2px);
   }
 
   .input,
   .field input,
   .field select,
   .field textarea {
-    @apply w-full border px-3 py-2.5 text-sm text-ink outline-none transition;
+    @apply w-full border px-4 py-3 text-sm text-ink outline-none transition;
     border-color: var(--line);
-    background: rgba(255, 253, 248, 0.72);
+    background: rgba(255, 255, 255, 0.78);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    transition: border-color 360ms var(--ease-apple), box-shadow 360ms var(--ease-apple), background 360ms var(--ease-apple);
   }
 
   .input:focus,
   .field input:focus,
   .field select:focus,
   .field textarea:focus {
-    border-color: rgba(143, 29, 29, 0.72);
-    box-shadow: 0 0 0 2px rgba(143, 29, 29, 0.08);
+    border-color: rgba(0, 113, 227, 0.55);
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.11);
   }
 
   .field {
     @apply grid gap-1.5 text-sm font-medium text-ink;
-    color: rgba(30, 26, 23, 0.68);
+    color: rgba(29, 29, 31, 0.7);
   }
 
   .field span {
@@ -203,21 +250,23 @@ td {
   }
 
   .field textarea {
-    @apply min-h-[96px] resize-y;
+    @apply min-h-[104px] resize-y;
   }
 
   .toolbar {
     @apply flex flex-col gap-3 border p-3 shadow-soft md:flex-row md:items-center;
     border-color: var(--line);
-    background: rgba(251, 248, 241, 0.78);
-    border-radius: 2px;
+    background: var(--glass);
+    backdrop-filter: blur(28px) saturate(1.45);
+    border-radius: 24px;
   }
 
   .table-shell {
     @apply overflow-hidden border shadow-soft;
     border-color: var(--line);
-    background: rgba(251, 248, 241, 0.82);
-    border-radius: 2px;
+    background: var(--glass-strong);
+    backdrop-filter: blur(30px) saturate(1.35);
+    border-radius: 28px;
   }
 
   .cell-content {
@@ -233,135 +282,144 @@ td {
 
   .empty-state {
     @apply border border-dashed bg-white px-4 py-8 text-center text-sm text-ink;
-    border-color: var(--line);
-    color: rgba(30, 26, 23, 0.5);
-    border-radius: 2px;
+    border-color: rgba(0, 0, 0, 0.1);
+    color: rgba(29, 29, 31, 0.54);
+    border-radius: 24px;
   }
 
   .modal-backdrop {
-    @apply fixed inset-0 z-30 grid place-items-center p-4 backdrop-blur-sm;
-    background: rgba(30, 26, 23, 0.35);
+    @apply fixed inset-0 z-30 grid place-items-center p-4 backdrop-blur-lg;
+    background: rgba(0, 0, 0, 0.28);
   }
 
   .editor-panel {
     @apply w-full max-w-5xl overflow-hidden border shadow-soft;
-    border-color: var(--line);
-    background: var(--paper-100);
-    border-radius: 2px;
+    border-color: rgba(255, 255, 255, 0.64);
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(36px) saturate(1.45);
+    border-radius: 30px;
   }
 
   .toggle {
-    @apply h-10 border bg-white px-3 text-sm font-semibold text-ink transition;
+    @apply h-11 border bg-white px-3 text-sm font-semibold text-ink transition;
     border-color: var(--line);
-    color: rgba(30, 26, 23, 0.62);
-    border-radius: 2px;
+    color: rgba(29, 29, 31, 0.64);
+    border-radius: 999px;
+    transition: transform 360ms var(--ease-apple), background 360ms var(--ease-apple), border-color 360ms var(--ease-apple);
   }
 
   .toggle:hover {
-    border-color: var(--seal);
+    border-color: rgba(0, 113, 227, 0.3);
+    transform: translateY(-1px);
   }
 
   .toggle-on {
-    border-color: var(--seal);
-    background: var(--seal);
-    color: var(--paper-50);
+    border-color: rgba(0, 113, 227, 0.18);
+    background: rgba(0, 113, 227, 0.1);
+    color: var(--seal);
   }
 
   .overview-band {
-    @apply grid gap-5 border p-6 shadow-soft lg:grid-cols-[1fr_270px];
+    @apply grid gap-6 border p-8 shadow-soft lg:grid-cols-[1fr_300px];
     position: relative;
     overflow: hidden;
-    border-color: var(--line);
-    background: rgba(251, 248, 241, 0.76);
-    border-radius: 2px;
+    min-height: 330px;
+    border-color: rgba(255, 255, 255, 0.72);
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.62)),
+      linear-gradient(120deg, rgba(0, 113, 227, 0.13), rgba(94, 92, 230, 0.09) 52%, rgba(255, 255, 255, 0));
+    backdrop-filter: blur(36px) saturate(1.4);
+    border-radius: 34px;
+    box-shadow: var(--shadow-soft);
   }
 
   .overview-band::before,
   .panel::before {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    content: "";
-    background-image:
-      linear-gradient(90deg, rgba(30, 26, 23, 0.035) 1px, transparent 1px),
-      linear-gradient(rgba(30, 26, 23, 0.025) 1px, transparent 1px);
-    background-size: 42px 42px;
-    opacity: 0.24;
+    display: none;
   }
 
-  .overview-band > *,
-  .panel > * {
+  .overview-band > * {
     position: relative;
     z-index: 1;
   }
 
   .overview-band h2 {
-    @apply mt-2 max-w-3xl text-4xl font-semibold leading-tight text-ink;
+    @apply mt-2 max-w-3xl text-5xl font-semibold leading-[1.04] text-ink md:text-6xl;
   }
 
   .overview-band p:last-child {
-    @apply mt-3 max-w-3xl text-sm leading-6 text-ink;
-    color: rgba(30, 26, 23, 0.64);
+    @apply mt-4 max-w-3xl text-base leading-7 text-ink;
+    color: rgba(29, 29, 31, 0.64);
   }
 
   .section-kicker {
     color: var(--seal);
     font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: none;
   }
 
   .mini-seal {
     display: inline-grid;
-    width: 38px;
-    height: 38px;
+    width: 42px;
+    height: 42px;
     place-items: center;
-    border: 1.5px solid var(--seal);
+    border: 1px solid rgba(0, 113, 227, 0.18);
+    border-radius: 50%;
+    background: rgba(0, 113, 227, 0.08);
     color: var(--seal);
     font-size: 13px;
     font-weight: 700;
-    transform: rotate(-7deg);
   }
 
   .metric-highlight {
-    @apply flex min-h-[150px] flex-col justify-center border bg-transparent px-5 text-left transition;
-    border-color: var(--line);
-    background: rgba(244, 234, 219, 0.54);
-    border-radius: 2px;
+    @apply flex min-h-[176px] flex-col justify-center border bg-transparent px-6 text-left transition;
+    border-color: rgba(255, 255, 255, 0.68);
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(26px) saturate(1.4);
+    border-radius: 28px;
+    animation: heroFloat 8s var(--ease-apple) infinite;
+    box-shadow: 0 18px 54px rgba(0, 0, 0, 0.08);
   }
 
   .metric-highlight.interactive:hover {
-    border-color: rgba(143, 29, 29, 0.62);
-    background: rgba(143, 29, 29, 0.055);
-    transform: translateY(-1px);
+    border-color: rgba(0, 113, 227, 0.28);
+    background: rgba(255, 255, 255, 0.88);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: var(--shadow-lift);
   }
 
   .metric-highlight span {
-    @apply text-sm font-medium text-ink;
-    color: rgba(30, 26, 23, 0.56);
+    @apply text-sm font-semibold text-ink;
+    color: rgba(29, 29, 31, 0.55);
   }
 
   .metric-highlight strong {
-    @apply mt-2 text-4xl font-semibold text-ink;
+    @apply mt-2 text-5xl font-semibold text-ink;
   }
 
   .metric-highlight small {
-    margin-top: 10px;
+    margin-top: 12px;
     color: var(--muted);
-    font-size: 12px;
+    font-size: 13px;
   }
 
   .stat-card {
-    @apply flex min-h-[126px] flex-col justify-between border p-4 text-left shadow-soft transition;
-    border-color: var(--line);
-    background: rgba(251, 248, 241, 0.78);
-    border-radius: 2px;
+    @apply flex min-h-[132px] flex-col justify-between border p-5 text-left shadow-soft transition;
+    border-color: rgba(255, 255, 255, 0.74);
+    background: rgba(255, 255, 255, 0.76);
+    backdrop-filter: blur(28px) saturate(1.35);
+    border-radius: 26px;
+    box-shadow: 0 14px 38px rgba(0, 0, 0, 0.06);
+    transition: transform 560ms var(--ease-apple), box-shadow 560ms var(--ease-apple), background 560ms var(--ease-apple);
   }
 
   .stat-card.clickable:hover {
-    border-color: rgba(143, 29, 29, 0.58);
-    background: rgba(143, 29, 29, 0.045);
-    transform: translateY(-1px);
+    border-color: rgba(0, 113, 227, 0.22);
+    background: rgba(255, 255, 255, 0.92);
+    transform: translateY(-6px) scale(1.018);
+    box-shadow: var(--shadow-lift);
   }
 
   .stat-card svg {
@@ -370,29 +428,31 @@ td {
 
   .stat-card span {
     @apply text-sm font-medium text-ink;
-    color: rgba(30, 26, 23, 0.58);
+    color: rgba(29, 29, 31, 0.56);
   }
 
   .stat-card strong {
-    @apply text-3xl font-semibold text-ink;
+    @apply text-4xl font-semibold text-ink;
   }
 
   .stat-card.wide {
-    @apply min-h-[112px];
+    @apply min-h-[120px];
   }
 
   .panel {
-    @apply border p-5 shadow-soft;
+    @apply border p-6 shadow-soft;
     position: relative;
     overflow: hidden;
-    border-color: var(--line);
-    background: rgba(251, 248, 241, 0.78);
-    border-radius: 2px;
+    border-color: rgba(255, 255, 255, 0.72);
+    background: var(--glass);
+    backdrop-filter: blur(30px) saturate(1.35);
+    border-radius: 30px;
+    box-shadow: var(--shadow-soft);
   }
 
   .panel-heading {
-    @apply mb-4 flex flex-col gap-1 border-b pb-4;
-    border-color: var(--line);
+    @apply mb-5 flex flex-col gap-1 border-b pb-4;
+    border-color: rgba(0, 0, 0, 0.07);
   }
 
   .panel-heading.row {
@@ -400,29 +460,32 @@ td {
   }
 
   .panel-heading h3 {
-    @apply text-base font-semibold;
+    @apply text-lg font-semibold;
   }
 
   .panel-heading span {
     @apply text-sm text-ink;
-    color: rgba(30, 26, 23, 0.55);
+    color: rgba(29, 29, 31, 0.56);
   }
 
   .row-card,
   .review-item {
     @apply flex flex-col gap-3 border p-4 md:flex-row md:items-start md:justify-between;
-    border-color: var(--line);
-    background: rgba(244, 234, 219, 0.52);
-    border-radius: 2px;
+    border-color: rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.64);
+    border-radius: 24px;
   }
 
   .clickable-row {
     @apply w-full transition;
+    transition: transform 480ms var(--ease-apple), box-shadow 480ms var(--ease-apple), background 480ms var(--ease-apple);
   }
 
   .clickable-row:hover {
-    border-color: rgba(143, 29, 29, 0.58);
-    background: rgba(143, 29, 29, 0.045);
+    border-color: rgba(0, 113, 227, 0.24);
+    background: rgba(255, 255, 255, 0.88);
+    transform: translateY(-3px);
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.08);
   }
 
   .insight-pill {
@@ -432,35 +495,35 @@ td {
 
   .insight-pill.strong,
   .insight-pill.good {
-    background: var(--seal);
-    color: var(--paper-50);
+    background: linear-gradient(180deg, #34c759, #28a745);
+    color: white;
   }
 
   .insight-pill.warn {
-    background: rgba(143, 29, 29, 0.1);
-    color: var(--seal);
+    background: rgba(255, 159, 10, 0.14);
+    color: #b36b00;
   }
 
   .insight-pill.danger {
-    background: #3b211d;
-    color: var(--paper-50);
+    background: rgba(255, 59, 48, 0.13);
+    color: #c81d16;
   }
 
   .insight-pill.neutral {
-    background: rgba(30, 26, 23, 0.08);
-    color: rgba(30, 26, 23, 0.7);
+    background: rgba(0, 0, 0, 0.06);
+    color: rgba(29, 29, 31, 0.68);
   }
 
   .rule-list {
     @apply space-y-3 text-sm leading-6 text-ink;
-    color: rgba(30, 26, 23, 0.68);
+    color: rgba(29, 29, 31, 0.68);
   }
 
   .rule-list li {
-    @apply border px-3 py-2;
-    border-color: var(--line);
-    background: rgba(244, 234, 219, 0.5);
-    border-radius: 2px;
+    @apply border px-4 py-3;
+    border-color: rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.58);
+    border-radius: 18px;
   }
 
   .local-search-box {
@@ -470,8 +533,10 @@ td {
     align-items: center;
     gap: 8px;
     border: 1px solid var(--line);
-    background: rgba(255, 253, 248, 0.76);
-    padding: 9px 11px;
+    background: rgba(255, 255, 255, 0.76);
+    padding: 11px 13px;
+    border-radius: 999px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.84);
   }
 
   .local-search-box input {
@@ -484,7 +549,7 @@ td {
 
   .search-result-grid {
     display: grid;
-    gap: 10px;
+    gap: 12px;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   }
 
@@ -493,24 +558,27 @@ td {
     position: relative;
     display: grid;
     gap: 7px;
-    min-height: 120px;
-    border: 1px solid var(--line);
-    background: rgba(244, 234, 219, 0.5);
-    padding: 14px;
+    min-height: 126px;
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.62);
+    padding: 16px;
     text-align: left;
-    transition: 160ms ease;
+    border-radius: 24px;
+    transition: transform 520ms var(--ease-apple), box-shadow 520ms var(--ease-apple), background 520ms var(--ease-apple);
   }
 
   .archive-result:hover {
-    border-color: rgba(143, 29, 29, 0.62);
-    background: rgba(143, 29, 29, 0.045);
-    transform: translateY(-1px);
+    border-color: rgba(0, 113, 227, 0.22);
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 22px 58px rgba(0, 0, 0, 0.1);
   }
 
   .archive-result span {
     color: var(--seal);
     font-size: 11px;
-    letter-spacing: 0.08em;
+    font-weight: 700;
+    letter-spacing: 0;
   }
 
   .archive-result strong {
@@ -526,23 +594,25 @@ td {
 
   .archive-result svg {
     position: absolute;
-    right: 13px;
-    bottom: 13px;
+    right: 15px;
+    bottom: 15px;
     color: var(--seal);
   }
 
   .account-grid {
     display: grid;
-    gap: 12px;
+    gap: 14px;
     grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   }
 
   .account-dossier {
     display: grid;
-    gap: 8px;
-    border: 1px solid var(--line);
-    background: rgba(244, 234, 219, 0.45);
-    padding: 12px;
+    gap: 9px;
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.58);
+    padding: 15px;
+    border-radius: 24px;
+    transition: transform 520ms var(--ease-apple), box-shadow 520ms var(--ease-apple), background 520ms var(--ease-apple);
   }
 
   .account-main {
@@ -558,6 +628,7 @@ td {
   .product-chip span {
     color: var(--seal);
     font-size: 11px;
+    font-weight: 700;
   }
 
   .account-main strong,
@@ -572,7 +643,7 @@ td {
   }
 
   .account-main div {
-    color: rgba(30, 26, 23, 0.62);
+    color: rgba(29, 29, 31, 0.62);
     font-size: 12px;
   }
 
@@ -583,37 +654,42 @@ td {
     padding: 0;
     color: var(--seal);
     font-size: 12px;
+    font-weight: 700;
   }
 
   .product-chip-grid {
     display: grid;
-    gap: 10px;
+    gap: 12px;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   }
 
   .product-chip {
     display: grid;
     gap: 6px;
-    min-height: 82px;
-    border: 1px solid var(--line);
-    background: rgba(244, 234, 219, 0.46);
-    padding: 12px;
+    min-height: 88px;
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.58);
+    padding: 14px;
     text-align: left;
-    transition: 160ms ease;
+    border-radius: 22px;
+    transition: transform 520ms var(--ease-apple), box-shadow 520ms var(--ease-apple), background 520ms var(--ease-apple);
   }
 
   .product-chip:hover,
   .account-dossier:hover {
-    border-color: rgba(143, 29, 29, 0.58);
-    background: rgba(143, 29, 29, 0.04);
+    border-color: rgba(0, 113, 227, 0.22);
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 54px rgba(0, 0, 0, 0.09);
   }
 
   .filter-note {
-    border: 1px solid rgba(143, 29, 29, 0.32);
-    background: rgba(143, 29, 29, 0.045);
-    padding: 10px 12px;
+    border: 1px solid rgba(0, 113, 227, 0.18);
+    background: rgba(0, 113, 227, 0.07);
+    padding: 12px 14px;
     color: var(--muted);
     font-size: 13px;
+    border-radius: 18px;
   }
 
   .filter-note strong {
@@ -626,9 +702,9 @@ td {
 
   .output-block {
     @apply border p-4;
-    border-color: var(--line);
-    background: rgba(244, 234, 219, 0.5);
-    border-radius: 2px;
+    border-color: rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.62);
+    border-radius: 24px;
   }
 
   .output-block strong {
@@ -637,7 +713,7 @@ td {
 
   .output-block p {
     @apply mt-3 whitespace-pre-wrap text-sm leading-6 text-ink;
-    color: rgba(30, 26, 23, 0.68);
+    color: rgba(29, 29, 31, 0.68);
   }
 
   .settings-list {
@@ -645,9 +721,10 @@ td {
   }
 
   .settings-list div {
-    @apply grid grid-cols-[24px_130px_1fr] items-center gap-3 border px-3 py-3 text-sm;
-    border-color: var(--line);
-    background: rgba(244, 234, 219, 0.5);
+    @apply grid grid-cols-[24px_130px_1fr] items-center gap-3 border px-4 py-3 text-sm;
+    border-color: rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.62);
+    border-radius: 20px;
   }
 
   .settings-list svg {
@@ -656,7 +733,7 @@ td {
 
   .settings-list span {
     @apply text-ink;
-    color: rgba(30, 26, 23, 0.55);
+    color: rgba(29, 29, 31, 0.55);
   }
 
   .settings-list strong {
@@ -665,8 +742,43 @@ td {
 
   .error-box {
     @apply overflow-auto border bg-white p-4 text-sm;
-    border-color: var(--seal);
-    color: var(--seal);
+    border-color: rgba(255, 59, 48, 0.28);
+    color: #c81d16;
+    border-radius: 18px;
+  }
+
+}
+
+.motion-surface {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
+  transition:
+    opacity 820ms var(--ease-apple) var(--motion-delay, 0ms),
+    transform 820ms var(--ease-apple) var(--motion-delay, 0ms),
+    filter 820ms var(--ease-apple) var(--motion-delay, 0ms);
+  will-change: opacity, transform, filter;
+}
+
+.motion-surface.is-visible {
+  opacity: 1 !important;
+  transform: translate3d(0, 0, 0) scale(1) !important;
+  filter: blur(0) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+  }
+
+  .motion-surface {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 
@@ -682,5 +794,15 @@ td {
   td,
   th {
     min-width: 160px;
+  }
+
+  .overview-band {
+    min-height: auto;
+    padding: 22px;
+    border-radius: 26px;
+  }
+
+  .overview-band h2 {
+    font-size: 40px;
   }
 }
